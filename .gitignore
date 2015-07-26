@@ -1,5 +1,6 @@
 .DS_Store
 *.pyc
 .idea
-data.json
+*.json
+node_modules/
 

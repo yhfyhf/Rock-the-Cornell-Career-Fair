@@ -1,0 +1,41 @@
+<section class="section--center mdl-grid mdl-grid--no-spacing mdl-shadow--2dp" ng-repeat="company in companies | 
+        filter: {name: search.name} | 
+        filter: {overview: search.overview} | 
+        filter: {job_titles: search.job_titles} | 
+        filter: {days: search.day1} | filter:{days: search.day2} |
+        filter: {job_types: search.ft} | filter:{job_types: search.pt} |
+        filter: {job_types: search.it} | filter:{job_types: search.co} |
+        filter: {authorizations: search.ci} | filter:{authorizations: search.f1} |
+        filter: {authorizations: search.j1} | filter:{authorizations: search.pr} |
+        filter: {authorizations: search.h1b} | filter:{authorizations: search.tn}">
+  <div class="mdl-card mdl-cell mdl-cell--12-col">
+    <div class="mdl-card__supporting-text">
+      <h1>
+        {{ company.name }}&nbsp;&nbsp;
+        <span class="days" ng-repeat="day in company.days">
+          <span class="badge">Day{{ day }}</span>&nbsp;&nbsp;
+        </span>
+      </h1>
+      <p>{{ company.overview }}</p><br>
+      <div ng-if="company.job_titles.length > 0">
+        <b>Job Titles: </b>
+          <span ng-repeat="jt in company.job_titles.slice(0, company.job_titles.length-1)">&nbsp;&nbsp;{{ jt }}&nbsp;&nbsp;|</span>
+          <span>{{ company.job_titles[company.job_titles.length-1] }}</span>
+      </div><br>
+      <div ng-if="company.degrees.length > 0">
+        <b>Degree Level: </b>
+        <span ng-repeat="d in company.degrees">
+          <span ng-if="d=='bachelor'">&nbsp;&nbsp;Bachelor's</span>
+          <span ng-if="d=='master'">&nbsp;&nbsp;Master's</span>
+          <span ng-if="d=='phd'">&nbsp;&nbsp;PhD</span>
+        </span>
+      </div>
+    </div>
+    <div class="mdl-card__actions">
+      <a href="{{ company.website }}" target="blank" class="mdl-button">Go to website</a>
+      <span class="job_type" ng-repeat="job_type in company.job_types">
+        <span class="label label-danger">{{ job_type }} </span>
+      </span>
+    </div>
+  </div>
+</section>

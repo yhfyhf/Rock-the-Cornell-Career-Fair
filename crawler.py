@@ -1,15 +1,10 @@
 import requests
 from lxml.html import soupparser
 from Company import Company
-import sys
-default_encoding = 'utf-8'
-if sys.getdefaultencoding() != default_encoding:
-    reload(sys)
-    sys.setdefaultencoding(default_encoding)
 
 
 def crawl_page(skip):
-    """ Get urls from the page specified skip.
+    """ Get urls and return companies from the page specified skip.
     """
     URL = "http://ccs.career.cornell.edu/CareerFair/CarFair_SearchCode.php?link=yes&Company_Name=*&skip=" + str(skip)
     r = requests.get(URL)
@@ -40,8 +35,6 @@ def parse_company(company, url):
     """
     r = requests.get(url)
     html = r.text.encode('utf-8')
-    # with open('company.html', 'r') as f:
-    #     html = f.read()
     soup = soupparser.fromstring(html)
     trs = soup.xpath("//table[@id='mytables']//table[1]/tr")
     for idx, tr in enumerate(trs):
@@ -50,10 +43,7 @@ def parse_company(company, url):
             if key[0] == 'Website':
                 company.website = tr.xpath("td[2]/a")[0].attrib['href']
             elif key[0] == 'Industry':
-                # try:
                 company.industry = tr.xpath("td[2]")[0].text
-                # except:
-                #     print company.id
             elif key[0] == 'Overview':
                 company.overview = tr.xpath("td[2]")[0].text
             elif key[0] == 'Days Attending':
@@ -112,12 +102,13 @@ if __name__ == '__main__':
     with open('data.json', 'a') as f:
         f.seek(0)
         f.truncate()
-        f.write('{"companies": [\n')
-        for skip in xrange(0, 280, 10):
+        f.write('{\n\t"companies": [\n')
+        for skip in xrange(0, 270, 10):
             cs = crawl_page(skip)
             print "crawl_page at %s completed." % str(skip)
             for c in cs:
-                f.write(c.to_json() + ',\n')
+                f.write('\t\t' + c.to_json() + ',\n')
         f.seek(-2, 2)
         f.truncate()
-        f.write('\n]}')
+        f.write('\n\t]\n}')
+    import parse
