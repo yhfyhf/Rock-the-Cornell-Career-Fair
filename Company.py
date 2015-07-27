@@ -12,7 +12,12 @@ class Company(object):
         self.overview = None
         self.days = []
         self.degrees = {'bachelor': False, 'master': False, 'phd': False}
-        self.job_types = {'full-time': False, 'part-time': False, 'internship': False, 'co-op': False}
+        self.job_types = {
+            'full-time': False,
+            'part-time': False,
+            'internship': False,
+            'co-op': False
+        }
         self.job_titles = []
         self.authorizations = {
             'citizen': False,

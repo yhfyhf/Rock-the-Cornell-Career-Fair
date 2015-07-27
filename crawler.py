@@ -1,6 +1,8 @@
 import requests
 from lxml.html import soupparser
+
 from Company import Company
+import parse
 
 
 def crawl_page(skip):
@@ -111,4 +113,5 @@ if __name__ == '__main__':
         f.seek(-2, 2)
         f.truncate()
         f.write('\n\t]\n}')
-    import parse
+
+        parse.parse()
